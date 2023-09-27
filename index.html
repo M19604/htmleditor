@@ -1,0 +1,326 @@
+<html><head><title>HTML Editor</title>
+<link rel="icon" type="image/x-icon" href="Favicon2.png">
+<style>
+    body {
+        text-align: center;
+        background-color: #111;
+        margin: 0;
+    }
+    
+    ::placeholder {
+        color: #g1g1g1;
+    }
+
+    #savedProjects,
+    textarea {
+        width: 90%;
+        height: 75%;
+        float: top;
+        margin: auto;
+        display: none;
+        background-color: #222;
+        outline: none;
+        font-family: monospace;
+        font-size: 2vw;
+        transition: .3s;
+        border: none;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        white-space: pre;
+        resize: none;
+        overflow-y: auto;
+    }
+    
+    textarea:focus,
+    textarea:hover {
+        background-color: #333;
+    }
+    
+    iframe {
+        bottom: 0;
+        position: relative;
+        width: 95%;
+        height: 35em;
+        display: none;
+        border-radius: 15px;
+        background-color: white;
+        outline: none;
+        border: none;
+        box-shadow: 2px 4px 6px #222;
+        transition: .5s;
+    }
+    
+    .navbar {
+        background-color: #222;
+        padding: 10px;
+        font-family: Arial;
+        user-select: none;
+        border-bottom: 3px solid #333;
+    }
+    
+    .navbar a{
+        color: white;
+        padding: 11px;
+        transition: .3s;
+        font-size: 2vw;
+    }
+    
+    .navbar a:hover {
+        background-color: #111;
+        border-bottom: 3px solid #a9a9a9;
+    }
+
+    .exit {
+            position: absolute;
+            bottom: 1;
+            right: 5;
+            color: red;
+            font-size: 5vw;
+            font-weight: bold;
+            z-index: 100;
+            display: none;
+            user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+        }
+
+    @media only screen and (max-width: 390px) {
+        .navbar a {
+            color: white;
+            padding: 10px;
+            transition: .3s;
+            font-size: 2.5vw;
+        }
+
+        .navbar {
+            background-color: #222;
+            padding: 8px;
+            font-family: Arial;
+            user-select: none;
+        }
+
+        #savedProjects,
+        textarea {
+            font-size: 5vw;
+        }
+    }
+
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style type="text/css" id="operaUserStyle"></style></head><body><div class="navbar">
+    <a id="htmlBTN" onclick="htmlClick()" style="">HTML</a>
+    <a id="cssBTN" onclick="cssClick()">CSS</a>
+    <a id="jsBTN" onclick="jsClick()" style="border-bottom: 3px solid rgb(169, 169, 169);">JavaScript</a>
+    <a id="viewBTN" onclick="viewClick()" style="">Preview</a>
+    <a id="saveBTN" onclick="save()">Save</a>
+    <a id="loadBTN" onclick="load()">Load</a>
+    <a id="savedBTN" onclick="saved()">Saved Projects</a>
+    <a id="deleteBTN" onclick="deleteProject()">Delete Project</a>
+</div>
+<br><br>
+<textarea id="html" placeholder="Write your HTML here..." spellcheck="false" style="display: none;"></textarea>
+<textarea id="css" placeholder="Write your CSS here..." spellcheck="false" style="display: none;"></textarea>
+<textarea id="js" placeholder="Write your JavaScript here..." spellcheck="false" style="display: inline-block;"></textarea>
+<iframe id="code" style="display: none;"></iframe>
+<a onclick="zoomOut()" id="exit" class="exit">×</a>
+<div id="savedProjects" style="display: none;">ABC</div>
+<script>
+    function compile() {
+        var html = document.getElementById("html");
+        var css = document.getElementById("css");
+        var js = document.getElementById("js");
+        var code = document.getElementById("code").contentWindow.document;
+        document.body.onkeyup = function() {
+            code.open();
+            code.writeln(
+                html.value +
+                "<style>" +
+                css.value +
+                "</style>" +
+                "<script>" +
+                js.value +
+                "</scr" + "ipt>"
+            );
+            code.close()
+        }
+    }
+    
+    compile()
+    
+    function htmlClick() {
+        document.getElementById("html").style.display = "inline-block";
+        document.getElementById("css").style.display = "none";
+        document.getElementById("js").style.display = "none";
+        document.getElementById("code").style.display = "none";
+        document.getElementById("savedProjects").style.display = "none";
+        document.getElementById("htmlBTN").style.borderBottom = "3px solid #a9a9a9";
+        document.getElementById("cssBTN").style.borderBottom = null;
+        document.getElementById("jsBTN").style.borderBottom = null;
+        document.getElementById("viewBTN").style.borderBottom = null;
+        document.getElementById("saveBTN").style.borderBottom = null;
+        document.getElementById("loadBTN").style.borderBottom = null;
+    }
+    
+    function cssClick() {
+        document.getElementById("html").style.display = "none";
+        document.getElementById("css").style.display = "inline-block";
+        document.getElementById("js").style.display = "none";
+        document.getElementById("code").style.display = "none";
+        document.getElementById("savedProjects").style.display = "none";
+        document.getElementById("htmlBTN").style.borderBottom = null;
+        document.getElementById("cssBTN").style.borderBottom = "3px solid #a9a9a9";
+        document.getElementById("jsBTN").style.borderBottom = null;
+        document.getElementById("viewBTN").style.borderBottom = null;
+        document.getElementById("saveBTN").style.borderBottom = null;
+        document.getElementById("loadBTN").style.borderBottom = null;
+    }
+    
+    function jsClick() {
+        document.getElementById("html").style.display = "none";
+        document.getElementById("css").style.display = "none";
+        document.getElementById("js").style.display = "inline-block";
+        document.getElementById("code").style.display = "none";
+        document.getElementById("savedProjects").style.display = "none";
+        document.getElementById("htmlBTN").style.borderBottom = null;
+        document.getElementById("cssBTN").style.borderBottom = null;
+        document.getElementById("jsBTN").style.borderBottom = "3px solid #a9a9a9";
+        document.getElementById("viewBTN").style.borderBottom = null;
+        document.getElementById("saveBTN").style.borderBottom = null;
+        document.getElementById("loadBTN").style.borderBottom = null;
+    }
+    
+    function viewClick() {
+        document.getElementById("html").style.display = "none";
+        document.getElementById("css").style.display = "none";
+        document.getElementById("js").style.display = "none";
+        document.getElementById("code").style.display = "inline-block";
+        document.getElementById("savedProjects").style.display = "none";
+        document.getElementById("htmlBTN").style.borderBottom = null;
+        document.getElementById("cssBTN").style.borderBottom = null;
+        document.getElementById("jsBTN").style.borderBottom = null;
+        document.getElementById("viewBTN").style.borderBottom = "3px solid #a9a9a9";
+        document.getElementById("saveBTN").style.borderBottom = null;
+        document.getElementById("loadBTN").style.borderBottom = null;
+    }
+    
+    function save() {
+        var html = document.getElementById("html").value;
+        var css = document.getElementById("css").value;
+        var js = document.getElementById("js").value;
+        var name = prompt("Save as:").trim();
+        if(name !== "") {
+            localStorage.setItem("html" + name, html);
+            localStorage.setItem("css" + name, css);
+            localStorage.setItem("js" + name, js);
+            document.getElementById("saveBTN").style.backgroundColor = "#39cc60";
+            document.getElementById("loadBTN").style.backgroundColor = null;
+            localStorage.setItem("savedProjects", localStorage.getItem("savedProjects") + name + "\n")
+        }
+    }
+    
+    function load() {
+        var name = prompt("File name:").trim();
+        if (name.toLowerCase() === "autosave") {
+            document.getElementById("html").value = localStorage.getItem("htmlAutoSave");
+            document.getElementById("css").value = localStorage.getItem("cssAutoSave");
+            document.getElementById("js").value = localStorage.getItem("jsAutoSave");
+        } else {
+            document.getElementById("html").value = localStorage.getItem("html" + name);
+            document.getElementById("css").value = localStorage.getItem("css" + name);
+            document.getElementById("js").value = localStorage.getItem("js" + name);
+            document.getElementById("saveBTN").style.backgroundColor = null;
+            document.getElementById("loadBTN").style.backgroundColor = "#39cc60";
+            compile();
+            var code = document.getElementById("code").contentWindow.document;
+            code.open();
+                code.writeln(
+                    html.value +
+                    "<style>" +
+                    css.value +
+                    "</style>" +
+                    "<script>" +
+                    js.value +
+                    "</scr" + "ipt>"
+                );
+                code.close()
+        }
+    }
+
+    function saved() {
+        document.getElementById("savedProjects").innerHTML = localStorage.getItem("savedProjects");
+        document.getElementById("html").style.display = "none";
+        document.getElementById("css").style.display = "none";
+        document.getElementById("js").style.display = "none";
+        document.getElementById("code").style.display = "none";
+        document.getElementById("savedProjects").style.display = "inline-block";
+        document.getElementById("htmlBTN").style.borderBottom = "3px solid #a9a9a9";
+        document.getElementById("cssBTN").style.borderBottom = null;
+        document.getElementById("jsBTN").style.borderBottom = null;
+        document.getElementById("viewBTN").style.borderBottom = null;
+        document.getElementById("saveBTN").style.borderBottom = null;
+        document.getElementById("loadBTN").style.borderBottom = null;
+    }
+
+    function deleteProject() {
+        var name = prompt("File name:");
+        localStorage.setItem("savedProjects", localStorage.getItem("savedProjects").replace(name + "\n", ""))
+        localStorage.removeItem("html" + name);
+        localStorage.removeItem("css" + name);
+        localStorage.removeItem("js" + name);
+    }
+
+    document.addEventListener("keyup", e => {
+        if(e.ctrlKey && e.key === "1") {
+            htmlClick();
+        }
+        if(e.ctrlKey && e.key === "2") {
+            cssClick();
+        }
+        if(e.ctrlKey && e.key === "3") {
+            jsClick();
+        }
+        if(e.ctrlKey && e.key === "4") {
+            viewClick();
+        }
+        if(e.ctrlKey && e.key === "s") {
+            save();
+        }
+        if(e.ctrlKey && e.key === "l") {
+            load();
+        }
+        localStorage.setItem("htmlAutoSave", document.getElementById("html").value);
+        localStorage.setItem("cssAutoSave", document.getElementById("css").value);
+        localStorage.setItem("jsAutoSave", document.getElementById("js").value);
+    })
+
+    document.addEventListener("keyup", e => {
+        if(e.altKey && e.key === "a" || e.altKey && e.key === "A") {
+            var code = document.getElementById("code");
+            var newWindow = window.open("", "window");
+            var script = document.createElement("script");
+            script.innerHTML = document.getElementById("js").value;
+            newWindow.document.body.innerHTML = document.getElementById("html").value + "<style>" + document.getElementById("css").value + "</style>";
+            newWindow.document.body.appendChild(script); 
+        }
+    })
+
+    function zoomOut() {
+        var code = document.getElementById("code");
+        code.style.height = "35em";
+        code.style.width = "95%";
+        code.style.borderRadius = "15px";
+        code.style.position = "relative";
+        code.style.bottom = "0";
+        document.getElementById("exit").style.display = "none";
+        sessionStorage.setItem("fullscreen", "false");
+    }
+
+    window.onload = function() {
+        if(localStorage.getItem("savedProjects") === "null" || localStorage.getItem("savedProjects") === null) {
+            localStorage.setItem("savedProjects", "");
+        }
+        sessionStorage.setItem("fullscreen", "false");
+    }
+</script></body></html>
